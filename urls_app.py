@@ -9,7 +9,7 @@ urlpatterns = patterns('',
 
   ( r'^apps/$',  'software_app.views.apps' ),
   
-  ( r'^login/$',  'usep_app.views.login' ),
+  ( r'^login/$',  'software_app.views.login' ),
     
   ( r'^$', redirect_to, {'url': '/%s/software/apps/' % settings_app.PROJECT_APP} ),
   
