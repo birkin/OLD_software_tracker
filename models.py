@@ -57,4 +57,3 @@ class Software(models.Model):
     return smart_unicode( self.name, u'utf-8', u'replace' )
   class Meta:
     verbose_name_plural = u'Software'
-  
