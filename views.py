@@ -11,10 +11,11 @@ from software_app import models, settings_app
 
 log = logging.getLogger(__name__)
 assert sorted(dir(settings_app)[0:-5]) == [
-  'ADMIN_CONTACT', 
-  'PERMITTED_ADMINS', 
-  'PROJECT_APP', 
-  'SPOOFED_SHIB_INFO' ]  # rest all built-ins
+  u'ADMIN_CONTACT',
+  u'GROUP_NAME',
+  u'PERMITTED_ADMINS', 
+  u'PROJECT_APP', 
+  u'SPOOFED_SHIB_JSON' ]  # rest all built-ins
 
 
 # @cache_page( 60 * 5 )  # 5 minutes
@@ -28,13 +29,14 @@ def apps( request ):
 
 
 def login( request ):
-  log.debug( u'login() starting' )
+  log.debug( u'login() start' )
   log.debug( u'request.META is: %s' % request.META )
   log_man = models.LoginManager( 
-    REQUEST_META_INFO = request.META,
+    REQUEST_META_DICT = request.META,
     ADMIN_CONTACT = settings_app.ADMIN_CONTACT,
-    SPOOFED_SHIB_INFO = settings_app.SPOOFED_SHIB_INFO,
-    PERMITTED_ADMINS = settings_app.PERMITTED_ADMINS
+    SPOOFED_SHIB_JSON = settings_app.SPOOFED_SHIB_JSON,  # for local development
+    PERMITTED_ADMINS = settings_app.PERMITTED_ADMINS,
+    GROUP_NAME = settings_app.GROUP_NAME  # if user
     )
   if log_man.check_authN() == u'failure':
     return HttpResponseForbidden( log_man.forbidden_response )
