@@ -60,35 +60,25 @@ class LoginManager( object ):
     self.PERMITTED_ADMINS = PERMITTED_ADMINS
     self.GROUP_NAME = GROUP_NAME  # if user needs to be created
     self.forbidden_response = u'You are not authorized to use the admin. If you believe you should be, please contact "%s".' % self.ADMIN_CONTACT
-    self.login_name = None
-    self.first_name = None
-    self.last_name = None
-    self.email = None
+    self.login_name = None  # eppn
+    self.first_name, self.last_name, self.email = ( None, None, None )
     self.user = None  # django user-object
-    self.authN_check = u'failure'
-    self.authZ_check = u'failure'
-    self.login_check = u'failure'
+    self.authN_check, self.authZ_check, self.login_check = ( u'failure', u'failure', u'failure' )
     try:
       self.login_name = self.REQUEST_META_DICT[ u'Shibboleth-eppn' ]
-      self.first_name = self.REQUEST_META_DICT[ u'Shibboleth-givenName' ]
-      self.last_name = self.REQUEST_META_DICT[ u'Shibboleth-sn' ]
-      self.email = self.REQUEST_META_DICT[ u'Shibboleth-mail' ].lower()
+      self.first_name, self.last_name, self.email = ( self.REQUEST_META_DICT[u'Shibboleth-givenName'], self.REQUEST_META_DICT[u'Shibboleth-sn'], self.REQUEST_META_DICT[u'Shibboleth-mail'].lower() )
       log.debug( u'shib info used' )
     except Exception as e:
       log.debug( u'error trying real shib info: %s' % repr(e).decode(u'utf-8', u'replace') )
       try:
-        json_string = self.SPOOFED_SHIB_JSON
-        try:
-          d = json.loads( json_string )
-        except ValueError as e2:
-          log.error( u'SPOOFED_SHIB_JSON likely bad; error: %s' % repr(e2).decode(u'utf-8', u'replace') )
+        d = json.loads( self.SPOOFED_SHIB_JSON )
+        log.debug( u'd is: %s' % d )
         self.login_name = d[ u'Shibboleth-eppn' ]
-        self.first_name = d[ u'Shibboleth-givenName' ]
-        self.last_name = d[ u'Shibboleth-sn' ]
-        self.email = d[ u'Shibboleth-mail' ].lower()
+        self.first_name, self.last_name, self.email = ( d[u'Shibboleth-givenName'], d[u'Shibboleth-sn'], d[u'Shibboleth-mail'].lower() )
         log.debug( u'spoofed shib info used' )
-      except Exception as e3:
-        log.debug( u'error using spoofed shib info: %s' % repr(e3).decode(u'utf-8', u'replace') )
+      except Exception as e2:
+        self.login_name = None
+        log.debug( u'error using SPOOFED_SHIB_JSON (formatted badly?): %s' % repr(e2).decode(u'utf-8', u'replace') )
     log.debug( u'LoginManager init() end' )
 
   def check_authN( self ):
@@ -98,18 +88,15 @@ class LoginManager( object ):
     return self.authN_check
 
   def check_authZ( self ):
-    u'''checks eppn against list'''
+    assert self.authN_check == u'success'
     if self.login_name in self.PERMITTED_ADMINS:
       self.authZ_check = u'success'
     log.debug( u'self.authZ_check: %s' % self.authZ_check )
     return self.authZ_check
 
-  def login_user( self, request ):
-    u'''
-    - authN & authZ have passed
-    - request passed in because its session-object is updated
-    '''
+  def login_user( self, request ):  # request passed in because its session-object is updated
     from django.contrib import auth
+    assert self.authN_check == u'success'; assert self.authZ_check == u'success'
     ## get or make user
     try:
       self.user = auth.models.User.objects.get( username=self.login_name )
@@ -129,9 +116,7 @@ class LoginManager( object ):
     from django.contrib.auth.models import User
     user = User( username=self.login_name )
     user.set_unusable_password()
-    user.first_name = self.first_name
-    user.last_name = self.last_name
-    user.email = self.email
+    user.first_name, user.last_name, user.email = ( self.first_name, self.last_name, self.email )
     user.is_staff = True   # allows admin access
     user.save()
     self.user = user
@@ -144,6 +129,4 @@ class LoginManager( object ):
       self.user.groups.add( group )
     log.debug( u'self.user.groups.all(): %s' % self.user.groups.all() )
 
-
   # end class LoginManager()
-

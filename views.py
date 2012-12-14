@@ -36,7 +36,7 @@ def login( request ):
     ADMIN_CONTACT = settings_app.ADMIN_CONTACT,
     SPOOFED_SHIB_JSON = settings_app.SPOOFED_SHIB_JSON,  # for local development
     PERMITTED_ADMINS = settings_app.PERMITTED_ADMINS,
-    GROUP_NAME = settings_app.GROUP_NAME  # if user
+    GROUP_NAME = settings_app.GROUP_NAME  # to assign permissions-group if user is created
     )
   if log_man.check_authN() == u'failure':
     return HttpResponseForbidden( log_man.forbidden_response )
