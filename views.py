@@ -20,9 +20,11 @@ assert sorted(dir(settings_app)[0:-5]) == [
 
 # @cache_page( 60 * 5 )  # 5 minutes
 def apps( request ):
+  software_list = models.Software.objects.all()
   page_dict = { 
     u'a': 1,
-    u'b': 2 
+    u'b': 2,
+    u'software_list': software_list
     }
   # return HttpResponse( u'test', content_type=u'text/javascript; charset=utf8' )
   return render_to_response( u'software_app_templates/base.html', page_dict )
