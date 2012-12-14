@@ -135,7 +135,8 @@
               {% for app in software_list %}
 
                 <li>
-                  <strong>{{ app.name }}</strong>
+                  <p><strong>{{ app.name }}</strong> {% if app.url_interactive %}<a href="{{ app.url_interactive }} class="main">public site</a>{% endif %}</p>
+                  <p>{{ app.description }}</p>
                 </li>  
               {% endfor %}
 
@@ -144,7 +145,7 @@
           </div>  <!-- end div id="software_list" -->
 
           <div id="bluebottom">
-            <p>? <a href="../index.php" class="bodytextSmall">Return to ITS home</a></p>
+            <p>» <a href="../index.php" class="bodytextSmall">Return to ITS home</a></p>
           </div>
         </div>
       </div>
