@@ -36,15 +36,40 @@ class Software(models.Model):
   contact_technical_name = models.CharField( max_length=100, blank=True )
   contact_technical_email = models.EmailField( blank=True )
   url_feedback = models.URLField( blank=True )
-  urls_pub_relations = models.TextField( blank=True, help_text='format: { "label": "url" }' )
+  urls_pub_relations = models.TextField( blank=True, help_text='must be valid json list of dicts, like [ {"date": "x", "label": "y", "url": "z"} ]' )
   urls_presentations = models.TextField( blank=True, help_text='format: { "label": "url" }' )
   api = models.BooleanField( default=False )
   activity = models.CharField( max_length=20, blank=True, choices=ACTIVITY_CHOICES )
   audience = models.CharField( max_length=20, blank=True, choices=AUDIENCE_CHOICES )
+
   def __unicode__(self):
     return smart_unicode( self.name, u'utf-8', u'replace' )
+
+  def save(self):
+    ## urls_pub_relations check
+    if len( self.urls_pub_relations.strip() ) == 0:
+      super(Software, self).save()
+    else:
+      try:
+        li = json.loads( self.urls_pub_relations )
+        self.urls_pub_relations = json.dumps( li, indent=2, sort_keys=True )
+        super(Software, self).save()
+      except:
+        raise Exception( u'Problem with "urls_pub_relations" field; valid json required; previous info remains; hit back button to correct.' )
+
+  def _getHighlight(self):
+    '''grabs first dict in list if it exists'''
+    try:
+      li = json.loads( self.urls_pub_relations )
+      return li[0]
+    except:
+      return None
+  highlight = property( _getHighlight )
+
   class Meta:
     verbose_name_plural = u'Software'
+
+  # end class Software()
 
 
 ### non db models ###

@@ -12,17 +12,30 @@
   <meta name="Copyright" content="Copyright (c) 2006 Brown University">
   <link href="http://library.brown.edu/common/common.css" rel="stylesheet" type="text/css" media="screen, projection">
   <link href="http://library.brown.edu/common/common_print.css" rel="stylesheet" type="text/css" media="print">
+
   <style type="text/css">
-
-  ul, li {
-
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 11px;
-  line-height: 130%;
-  }
-
-
+    ul, li {
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      line-height: 130%;
+    }
+    #admin { 
+      float:right; 
+    }
+    div#maincontent #software_list ul li p.app_name {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 10px;
+    }
+    div#maincontent #software_list ul li p.app_description {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 20px;
+    }
   </style>
+
 </head>
 
 <body>
@@ -133,10 +146,13 @@
             <ul>
 
               {% for app in software_list %}
-
                 <li>
-                  <p><strong>{{ app.name }}</strong> {% if app.url_interactive %}<a href="{{ app.url_interactive }} class="main">public site</a>{% endif %}</p>
-                  <p>{{ app.description }}</p>
+                  <p class="app_name"><strong>{{ app.name }}</strong>
+                    {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
+                    {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
+                    {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
+                  </p>
+                  <p class="app_description">{{ app.description }}</p>
                 </li>  
               {% endfor %}
 
@@ -145,7 +161,7 @@
           </div>  <!-- end div id="software_list" -->
 
           <div id="bluebottom">
-            <p>» <a href="../index.php" class="bodytextSmall">Return to ITS home</a></p>
+            <p>» <a href="../index.php" class="bodytextSmall">Return to ITS home</a><span id="admin"><a href="../login/" class="bodytextSmall">» admin</a></span></p>
           </div>
         </div>
       </div>
