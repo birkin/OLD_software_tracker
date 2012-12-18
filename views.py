@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 assert sorted(dir(settings_app)[0:-5]) == [
   u'ADMIN_CONTACT',
   u'GROUP_NAME',
+  u'LOGIN_URL',
   u'PERMITTED_ADMINS', 
   u'PROJECT_APP', 
   u'SPOOFED_SHIB_JSON' ]  # rest all built-ins
@@ -24,7 +25,8 @@ def apps( request ):
   page_dict = { 
     u'a': 1,
     u'b': 2,
-    u'software_list': software_list
+    u'software_list': software_list,
+    u'LOGIN_URL': settings_app.LOGIN_URL, 
     }
   # return HttpResponse( u'test', content_type=u'text/javascript; charset=utf8' )
   return render_to_response( u'software_app_templates/base.html', page_dict )
