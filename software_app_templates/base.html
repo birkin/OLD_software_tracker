@@ -149,11 +149,14 @@
                 <li>
                   <p class="app_name"><strong>{{ app.name }}</strong>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
-                    {% if app.url_interactive %}
-                      {% if app.url_documentation %} || {% endif %}
-                    {% endif %}
+                    
+                    {% if app.url_interactive and app.url_documentation %} || {% endif %}
                     {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
+                    
                     {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
+                    
+                    {% if app.url_documentation and app.url_source %} || {% endif %}
+                    {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
                   </p>
                   <p class="app_description">{{ app.description }}</p>
                 </li>  
