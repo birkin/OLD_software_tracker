@@ -149,6 +149,9 @@
                 <li>
                   <p class="app_name"><strong>{{ app.name }}</strong>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
+                    {% if app.url_interactive %}
+                      {% if app.url_documentation %} || {% endif %}
+                    {% endif %}
                     {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
                     {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
                   </p>
