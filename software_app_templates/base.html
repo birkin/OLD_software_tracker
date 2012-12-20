@@ -25,46 +25,42 @@
       float:right; 
     }
 
-/*    div#maincontent #production_list ul li p.app_name, div#maincontent #api_list ul li p.app_name {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      padding-top: 0px;
-      padding-bottom: 10px;
-    }
-    div#maincontent #production_list ul li p.app_description, div#maincontent #api_list ul li p.app_description {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      padding-top: 0px;
-      padding-bottom: 20px;
-    }
-    div#maincontent #api_list ul li p, div#maincontent #api_list ul li p ul {
-      margin-top: 0px;
-      margin-bottom: 0px;
-      padding-top: 0px;
-      padding-bottom: 20px;
-    }
-*/
     span.app_name_only {
       font-weight: bold;
     }
+
     div.app_description {
-      margin-top: 10px;
-      margin-bottom: 0px;
-      padding-top: 0px;
-      padding-bottom: 20px;
-    }
-    div.app_description p {
       margin-top: 0px;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
+      margin-left: -10px;
+      padding-top: 0px;
+      padding-bottom: 10px;
+      padding-left: 0px;
+    }
+
+/*    div#api_list ul li div.app_description p {
+      margin-top: 0px;
+      margin-bottom: 0px;
       padding-top: 0px;
       padding-bottom: 0px;
     }
-    div.app_description ul {
-      margin-top: -10px;
+*/
+
+/*    div#api_list ul li div.app_description p {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+*/
+
+/*    div.app_description ul {
+      margin-top: 0px;
       margin-bottom: 0px;
       padding-top: 0px;
       padding-bottom: 10px;
     }
+*/
 
   </style>
 
@@ -190,7 +186,7 @@
                     {% if app.url_documentation and app.url_source %} || {% endif %}
                     {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
                   </div>
-                  <div class="app_description">{{ app.description }}</div>
+                  <div class="app_description">{{ app.description|markdown }}</div>
                 </li>  
               {% endfor %}
 
