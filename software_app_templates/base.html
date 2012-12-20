@@ -1,3 +1,5 @@
+{% load markup %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "https://www.w3.org/TR/html4/loose.dtd">
 
@@ -22,18 +24,48 @@
     #admin { 
       float:right; 
     }
-    div#maincontent #software_list ul li p.app_name {
+
+/*    div#maincontent #production_list ul li p.app_name, div#maincontent #api_list ul li p.app_name {
       margin-top: 0px;
       margin-bottom: 0px;
       padding-top: 0px;
       padding-bottom: 10px;
     }
-    div#maincontent #software_list ul li p.app_description {
+    div#maincontent #production_list ul li p.app_description, div#maincontent #api_list ul li p.app_description {
       margin-top: 0px;
       margin-bottom: 0px;
       padding-top: 0px;
       padding-bottom: 20px;
     }
+    div#maincontent #api_list ul li p, div#maincontent #api_list ul li p ul {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 20px;
+    }
+*/
+    span.app_name_only {
+      font-weight: bold;
+    }
+    div.app_description {
+      margin-top: 10px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 20px;
+    }
+    div.app_description p {
+      margin-top: 0px;
+      margin-bottom: 20px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+    div.app_description ul {
+      margin-top: -10px;
+      margin-bottom: 0px;
+      padding-top: 0px;
+      padding-bottom: 10px;
+    }
+
   </style>
 
 </head>
@@ -139,15 +171,15 @@
             </div>
           </div>
 
-          <p><strong>Production Services:</strong></p>
+          <div id="production_list">
 
-          <div id="software_list">
+            <p><strong>Production Services:</strong></p>
 
             <ul>
 
-              {% for app in software_list %}
+              {% for app in production_list %}
                 <li>
-                  <p class="app_name"><strong>{{ app.name }}</strong>
+                  <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
                     
                     {% if app.url_interactive and app.url_documentation %} || {% endif %}
@@ -157,14 +189,42 @@
                     
                     {% if app.url_documentation and app.url_source %} || {% endif %}
                     {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
-                  </p>
-                  <p class="app_description">{{ app.description }}</p>
+                  </div>
+                  <div class="app_description">{{ app.description }}</div>
                 </li>  
               {% endfor %}
 
             </ul>
 
-          </div>  <!-- end div id="software_list" -->
+          </div>  <!-- end div id="production_list" -->
+
+          <div id="api_list">
+
+            <p><strong>APIs:</strong></p>
+
+            <ul>
+
+              {% for app in api_list %}
+                <li>
+                  <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
+                    {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
+                    
+                    {% if app.url_interactive and app.url_documentation %} || {% endif %}
+                    {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
+                    
+                    {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
+                    
+                    {% if app.url_documentation and app.url_source %} || {% endif %}
+                    {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
+                  </div>
+                  <div class="app_description">{{ app.description|markdown }}</div>
+                </li>  
+              {% endfor %}
+
+            </ul>
+
+          </div>  <!-- end div id="production_list" -->
+
 
           <div id="bluebottom">
             <p>» <a href="../index.php" class="bodytextSmall">Return to ITS home</a><span id="admin"><a href="{{ LOGIN_URL }}" class="bodytextSmall">» admin</a></span></p>
