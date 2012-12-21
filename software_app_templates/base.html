@@ -223,12 +223,16 @@
                   <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
                     
-                    {% if app.url_interactive and app.url_documentation %} || {% endif %}
+                    {% if app.url_documentation and app.url_interactive %} || {% endif %}
                     {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
                     
+                    {% if app.highlight and app.url_interactive %} || {% endif %}
+                    {% if app.highlight and app.url_documentation %} || {% endif %}
                     {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
                     
-                    {% if app.url_documentation and app.url_source %} || {% endif %}
+                    {% if app.url_source and app.url_interactive  %} || {% endif %}
+                    {% if app.url_source and app.url_documentation  %} || {% endif %}
+                    {% if app.url_source and app.highlight  %} || {% endif %}
                     {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
                   </div>
 
@@ -266,12 +270,16 @@
                   <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
                     
-                    {% if app.url_interactive and app.url_documentation %} || {% endif %}
+                    {% if app.url_documentation and app.url_interactive %} || {% endif %}
                     {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
                     
+                    {% if app.highlight and app.url_interactive %} || {% endif %}
+                    {% if app.highlight and app.url_documentation %} || {% endif %}
                     {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
                     
-                    {% if app.url_documentation and app.url_source %} || {% endif %}
+                    {% if app.url_source and app.url_interactive  %} || {% endif %}
+                    {% if app.url_source and app.url_documentation  %} || {% endif %}
+                    {% if app.url_source and app.highlight  %} || {% endif %}
                     {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
                   </div>
 
