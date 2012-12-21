@@ -23,7 +23,7 @@ class Software(models.Model):
     )
   name = models.CharField( max_length=100 )
   slug = models.SlugField()
-  description = models.TextField( blank=True, help_text='markdown syntax: http://daringfireball.net/projects/markdown/' )
+  description = models.TextField( blank=True, help_text='plain text, or markdown syntax (http://daringfireball.net/projects/markdown/)' )
   # description_is_markdown = models.BooleanField( default=False )
   composed_of = models.ManyToManyField( 'self', null=True, blank=True, related_name='components', symmetrical=False )
   url_interactive = models.URLField( blank=True )
@@ -40,6 +40,7 @@ class Software(models.Model):
   urls_presentations = models.TextField( blank=True, help_text='format: { "label": "url" }' )
   in_production = models.BooleanField( default=False )
   api = models.BooleanField( default=False )
+  current_development = models.BooleanField( default=False )
   activity = models.CharField( max_length=20, blank=True, choices=ACTIVITY_CHOICES )
   audience = models.CharField( max_length=20, blank=True, choices=AUDIENCE_CHOICES )
 

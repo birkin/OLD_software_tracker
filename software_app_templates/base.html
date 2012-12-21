@@ -24,11 +24,11 @@
     #admin { 
       float:right; 
     }
-
+    /* item title */
     span.app_name_only {
       font-weight: bold;
     }
-
+    /* item description */
     div.app_description {
       margin-top: 0px;
       margin-bottom: 0px;
@@ -37,12 +37,22 @@
       padding-bottom: 10px;
       padding-left: 0px;
     }
-
-    div#api_list {
+    /* main listing sections */
+    div#api_list, div#current_development_list {
       margin-top: -20px;
     }
-
-
+    /* item-level 'Components' */
+    div.components_section {
+      margin-top: -25px;
+      margin-bottom: 0px;
+      margin-left: -10px;
+      padding-top: 0px;
+      padding-bottom: 0px;
+      padding-left: 0px;
+    }
+    ul.components_list {
+      margin-top: -10px;
+    }
   </style>
 
 </head>
@@ -134,7 +144,7 @@
               <div class="navbargray">
                 » Production Services<br>
                 » <a href="#api" class="nav">APIs</a><br>
-                » <a href="#current" class="nav">Current Development</a><br>
+                » <a href="#current_development" class="nav">Current Development</a><br>
               </div>
 
               <div class="navbarheadgray">
@@ -156,6 +166,7 @@
 
               {% for app in production_list %}
                 <li>
+
                   <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
                     
@@ -167,7 +178,21 @@
                     {% if app.url_documentation and app.url_source %} || {% endif %}
                     {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
                   </div>
+
                   <div class="app_description">{{ app.description|markdown }}</div>
+
+                  {% if app.composed_of.all.count > 0  %}
+                    <!-- <p>{{ app.composed_of.all.count }}</p> -->
+                    <div class="components_section">
+                      <p class="components_label">Components:</p>
+                      <ul class="components_list">
+                      {% for piece in app.composed_of.all %}
+                        <li class="components_item"><a href="#{{ piece.slug }}" class="nav">{{ piece.name }}</a></li>
+                      {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+
                 </li>  
               {% endfor %}
 
@@ -184,6 +209,7 @@
 
               {% for app in api_list %}
                 <li>
+
                   <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
                     {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
                     
@@ -195,14 +221,69 @@
                     {% if app.url_documentation and app.url_source %} || {% endif %}
                     {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
                   </div>
+
                   <div class="app_description">{{ app.description|markdown }}</div>
+
+                  {% if app.composed_of.all.count > 0  %}
+                    <!-- <p>{{ app.composed_of.all.count }}</p> -->
+                    <p class="components_label">Components:</p>
+                    <ul class="components_list">
+                    {% for piece in app.composed_of.all %}
+                      <li class="components_item"><a href="#{{ piece.slug }}" class="nav">{{ piece.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                  {% endif %}
+
                 </li>  
               {% endfor %}
 
             </ul>
 
-          </div>  <!-- end div id="production_list" -->
+          </div>  <!-- end div id="api_list" -->
 
+
+          <div id="current_development_list">
+
+            <a name="current_development"></a>
+            <p><strong>Current Development:</strong></p>
+
+            <ul>
+
+              {% for app in current_development_list %}
+                <li>
+
+                  <div class="app_name"><span class="app_name_only">{{ app.name }}</span>
+                    {% if app.url_interactive %}<a href="{{ app.url_interactive }}" class="main">public-site</a>{% endif %}
+                    
+                    {% if app.url_interactive and app.url_documentation %} || {% endif %}
+                    {% if app.url_documentation %}<a href="{{ app.url_documentation }}" class="main">about</a>{% endif %}
+                    
+                    {% if app.highlight %}<a href="{{ app.highlight.url }}" class="main">{{ app.highlight.label }}</a>{% endif %}
+                    
+                    {% if app.url_documentation and app.url_source %} || {% endif %}
+                    {% if app.url_source %}<a href="{{ app.url_source }}" class="main">code</a>{% endif %}
+                  </div>
+
+                  <div class="app_description">{{ app.description|markdown }}</div>
+
+                  {% if app.composed_of.all.count > 0  %}
+                    <!-- <p>{{ app.composed_of.all.count }}</p> -->
+                    <div class="components_section">
+                      <p class="components_label">Components:</p>
+                      <ul class="components_list">
+                      {% for piece in app.composed_of.all %}
+                        <li class="components_item"><a href="#{{ piece.slug }}" class="nav">{{ piece.name }}</a></li>
+                      {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+
+                </li>  
+              {% endfor %}
+
+            </ul>
+
+          </div>  <!-- end div id="current_development_list" -->
 
           <div id="bluebottom">
             <p>» <a href="../index.php" class="bodytextSmall">Return to ITS home</a><span id="admin"><a href="{{ LOGIN_URL }}" class="bodytextSmall">» admin</a></span></p>

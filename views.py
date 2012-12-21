@@ -21,22 +21,12 @@ assert sorted(dir(settings_app)[0:-5]) == [
 
 def apps( request ):
   page_dict = { 
-  u'api_list': models.Software.objects.filter( api=True ),
+    u'api_list': models.Software.objects.filter( api=True ),
     u'production_list': models.Software.objects.filter( in_production=True ),
+    u'current_development_list': models.Software.objects.filter( current_development=True ),
     u'LOGIN_URL': settings_app.LOGIN_URL, 
     }
   return render_to_response( u'software_app_templates/base.html', page_dict )
-
-
-# def apps( request ):
-#   software_list = models.Software.objects.all()
-#   page_dict = { 
-#     u'a': 1,
-#     u'b': 2,
-#     u'software_list': software_list,
-#     u'LOGIN_URL': settings_app.LOGIN_URL, 
-#     }
-#   return render_to_response( u'software_app_templates/base.html', page_dict )
 
 
 def login( request ):
