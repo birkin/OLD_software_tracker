@@ -69,6 +69,7 @@ class Software(models.Model):
   highlight = property( _getHighlight )
 
   class Meta:
+    ordering = [ u'name' ]
     verbose_name_plural = u'Software'
 
   # end class Software()
