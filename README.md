@@ -11,7 +11,7 @@ On this page...
 About
 =====
 
-SoftwareTracker is a [django][DJ] app which replaces an old hardcoded (& difficult to maintain) html page. Features include:
+'software_tracker' is a [django][DJ] app which replaces an old hardcoded (& difficult to maintain) html page ([new page][NP]). Features include:
 
 - software description
 - documentation location
@@ -22,15 +22,17 @@ SoftwareTracker is a [django][DJ] app which replaces an old hardcoded (& difficu
 - software that's a component of other software
 
 [DJ]:https://www.djangoproject.com
+[NP]:https://library.brown.edu/projects/software/
 
 ---
 
 License
 =======
 
-SoftwareTracker by [Brown University Library] [BUL]
+'[software_tracker][ST]' by [Brown University Library] [BUL]
 is licensed under a [Creative Commons Attribution-ShareAlike 3.0 Unported License] [CC BY-SA 3.0]
 
+[ST]: https://library.brown.edu/projects/software/
 [BUL]: http://library.brown.edu/its/software/
 [CC BY-SA 3.0]: http://creativecommons.org/licenses/by-sa/3.0/
 
