@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import json, logging, pprint
-# import requests
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect  # , HttpResponseNotFound, 
 from django.shortcuts import render_to_response
 # from django.views.decorators.cache import cache_page
-# from usep_app import settings_app, models, utility_code
 from software_app import models, settings_app
-# from usep_app.models import AboutPage, ContactsPage, LinksPage, PublicationsPage, TextsPage  # static pages
 
 log = logging.getLogger(__name__)
 assert sorted(dir(settings_app)[0:-5]) == [

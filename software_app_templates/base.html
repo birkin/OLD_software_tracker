@@ -206,6 +206,21 @@
                     </div>
                   {% endif %}
 
+                  {% if app.contact_domain_email or app.contact_technical_email  %}
+                    <div class="components_section">
+                      <p class="components_label">Contact{% if app.contact_technical_email and app.contact_domain_email %}s{% endif %}:</p>
+                      <ul class="components_list">
+                      {% if app.contact_domain_email and app.contact_technical_email  %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_domain_email }}" class="nav">{{ app.contact_domain_email }}</a> (domain)</li>
+                        <li class="components_item"><a href="mailto:{{ app.contact_technical_email }}" class="nav">{{ app.contact_technical_email }}</a> (code)</li>
+                      {% elif app.contact_domain_email %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_domain_email }}" class="nav">{{ app.contact_domain_email }}</a></li>
+                      {% elif app.contact_technical_email %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_technical_email }}" class="nav">{{ app.contact_technical_email }}</a></li>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+
                 </li>  
               {% endfor %}
 
@@ -250,6 +265,21 @@
                       <li class="components_item"><a href="#{{ piece.slug }}" class="nav">{{ piece.name }}</a></li>
                     {% endfor %}
                     </ul>
+                  {% endif %}
+
+                  {% if app.contact_domain_email or app.contact_technical_email  %}
+                    <div class="components_section">
+                      <p class="components_label">Contact{% if app.contact_technical_email and app.contact_domain_email %}s{% endif %}:</p>
+                      <ul class="components_list">
+                      {% if app.contact_domain_email and app.contact_technical_email  %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_domain_email }}" class="nav">{{ app.contact_domain_email }}</a> (domain)</li>
+                        <li class="components_item"><a href="mailto:{{ app.contact_technical_email }}" class="nav">{{ app.contact_technical_email }}</a> (code)</li>
+                      {% elif app.contact_domain_email %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_domain_email }}" class="nav">{{ app.contact_domain_email }}</a></li>
+                      {% elif app.contact_technical_email %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_technical_email }}" class="nav">{{ app.contact_technical_email }}</a></li>
+                      {% endif %}
+                    </div>
                   {% endif %}
 
                 </li>  
@@ -298,6 +328,21 @@
                         <li class="components_item"><a href="#{{ piece.slug }}" class="nav">{{ piece.name }}</a></li>
                       {% endfor %}
                       </ul>
+                    </div>
+                  {% endif %}
+
+                  {% if app.contact_domain_email or app.contact_technical_email  %}
+                    <div class="components_section">
+                      <p class="components_label">Contact{% if app.contact_technical_email and app.contact_domain_email %}s{% endif %}:</p>
+                      <ul class="components_list">
+                      {% if app.contact_domain_email and app.contact_technical_email  %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_domain_email }}" class="nav">{{ app.contact_domain_email }}</a> (domain)</li>
+                        <li class="components_item"><a href="mailto:{{ app.contact_technical_email }}" class="nav">{{ app.contact_technical_email }}</a> (code)</li>
+                      {% elif app.contact_domain_email %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_domain_email }}" class="nav">{{ app.contact_domain_email }}</a></li>
+                      {% elif app.contact_technical_email %}
+                        <li class="components_item"><a href="mailto:{{ app.contact_technical_email }}" class="nav">{{ app.contact_technical_email }}</a></li>
+                      {% endif %}
                     </div>
                   {% endif %}
 
