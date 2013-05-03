@@ -7,10 +7,12 @@ from software_app import settings_app
 
 urlpatterns = patterns('',
 
-  ( r'^apps/$',  'software_app.views.apps' ),
-  
+  ( r'^apps/$',  'software_app.views.apps2' ),
+
+  # ( r'^apps2/$',  'software_app.views.apps2' ),
+
   ( r'^login/$',  'software_app.views.login' ),
-    
+
   ( r'^$', redirect_to, {'url': '/%s/software/apps/' % settings_app.PROJECT_APP} ),
-  
+
   )

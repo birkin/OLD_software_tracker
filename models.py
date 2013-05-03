@@ -19,7 +19,7 @@ class Software(models.Model):
     )
   AUDIENCE_CHOICES = (
     ( 'public', 'public' ),
-    ( 'staff', 'staff' ),    
+    ( 'staff', 'staff' ),
     )
   name = models.CharField( max_length=100 )
   slug = models.SlugField()
@@ -71,6 +71,32 @@ class Software(models.Model):
   class Meta:
     ordering = [ u'name' ]
     verbose_name_plural = u'Software'
+
+  def make_serializable_dict(self):
+    """Converts attribute info into dict and returns it; dict will either be passed to template or exposed as json."""
+    import django  # for asserts
+    dic = {}
+    ## most attributes
+    for key,value in self.__dict__.items():
+      if key == u'_state':                # not a real attribute, and not serializable
+        continue
+      elif key == u'activity' and value:
+        dic[key] = dict(self.ACTIVITY_CHOICES)[value]
+      elif key == u'audience' and value:
+        dic[key] = dict(self.AUDIENCE_CHOICES)[value]
+      else:
+        dic[key] = value
+    ## 'composed of' attribute (not in __dict__)
+    composed_of_list = []
+    composed_of_queryset = self.composed_of.values()
+    assert type(composed_of_queryset) == django.db.models.query.ValuesQuerySet  # not serializable
+    for dict_entry in composed_of_queryset:
+      composed_of_list.append( dict_entry )
+    dic[u'composed_of'] = composed_of_list
+    ## 'highlight' attribute              # non-standard 'property' attribute
+    dic[u'highlight'] = self.highlight
+    ## return
+    return dic
 
   # end class Software()
 
