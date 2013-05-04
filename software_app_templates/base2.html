@@ -150,9 +150,9 @@
               </div>
 
               <div class="navbargray">
-                » Production Services<br>
-                » <a href="#api" class="nav">APIs</a><br>
-                » <a href="#current_development" class="nav">Current Development</a><br>
+                &raquo; Production Services<br>
+                &raquo; <a href="#api" class="nav">APIs</a><br>
+                &raquo; <a href="#current_development" class="nav">Current Development</a><br>
               </div>
 
               <div class="navbarheadgray">
@@ -160,8 +160,8 @@
               </div>
 
               <div class="navbargray">
-                » <a href="https://library.brown.edu/about/grants.php" class="nav">Current Grant Projects</a><br>
-                » <a href="https://docs.google.com/a/brown.edu/file/d/0B56bd_8V__jDbmcwX3NfdDhUdVN6UHRtZHJvU1pJQQ/edit" class="nav">Current LibTech Goals</a><br>
+                &raquo; <a href="https://library.brown.edu/about/grants.php" class="nav">Current Grant Projects</a><br>
+                &raquo; <a href="https://docs.google.com/a/brown.edu/file/d/0B56bd_8V__jDbmcwX3NfdDhUdVN6UHRtZHJvU1pJQQ/edit" class="nav">Current LibTech Goals</a><br>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@
                       <p class="components_label">Components:</p>
                       <ul class="components_list">
                       {% for piece in app.composed_of %}
-                        <li class="components_item"><a href="#{{ piece.slug }}" class="nav">{{ piece.name }}</a></li>
+                        <li class="components_item"><a href="{{ piece.url_software_page }}" class="nav">{{ piece.name }}</a></li>
                       {% endfor %}
                       </ul>
                     </div>
@@ -352,11 +352,11 @@
 
           <div id="bluebottom">
             <p>
-              <a href="https://library.brown.edu/its/" class="bodytextSmall">» Return to ITS home</a>
+              <a href="https://library.brown.edu/its/" class="bodytextSmall">&raquo; Return to ITS home</a>
               <span id="admin">
-                <a href="./?format=json" class="bodytextSmall">» data</a>
+                <a href="./?format=json" class="bodytextSmall">&raquo; data</a>
                 &nbsp;&nbsp;&nbsp;
-                <a href="{{ LOGIN_URL }}" class="bodytextSmall">» admin</a>
+                <a href="{{ LOGIN_URL }}" class="bodytextSmall">&raquo; admin</a>
               </span>
             </p>
           </div>

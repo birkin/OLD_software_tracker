@@ -18,13 +18,14 @@ assert sorted(dir(settings_app)[0:-5]) == [
 def apps2( request ):
   """Preps data; returns main display page or json."""  # TODO: a) delete base.html; b) cache
   ## prep data
+  url_scheme, url_server = request.META[u'wsgi.url_scheme'], request.META[u'SERVER_NAME']
   api_list, production_list, current_development_list = [], [], []
   for obj in models.Software.objects.filter( api=True ):
-    api_list.append( obj.make_serializable_dict() )
+    api_list.append( obj.make_serializable_dict( url_scheme, url_server ) )
   for obj in models.Software.objects.filter( in_production=True ):
-    production_list.append( obj.make_serializable_dict() )
+    production_list.append( obj.make_serializable_dict( url_scheme, url_server ) )
   for obj in models.Software.objects.filter( current_development=True ):
-    current_development_list.append( obj.make_serializable_dict() )
+    current_development_list.append( obj.make_serializable_dict( url_scheme, url_server ) )
   data_dict = {
     u'api_list': api_list,
     u'production_list': production_list,

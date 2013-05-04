@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json, logging
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import smart_unicode
 
@@ -72,13 +73,15 @@ class Software(models.Model):
     ordering = [ u'name' ]
     verbose_name_plural = u'Software'
 
-  def make_serializable_dict(self):
-    """Converts attribute info into dict and returns it; dict will either be passed to template or exposed as json."""
+  def make_serializable_dict( self, url_scheme, url_server ):
+    """Converts attribute and other info into dict and returns it; dict will either be passed to template or exposed as json."""
     import django  # for asserts
     dic = {}
     ## most attributes
     for key,value in self.__dict__.items():
-      if key == u'_state':                # not a real attribute, and not serializable
+      if key == u'_state':                  # not a real attribute, and not serializable
+        continue
+      elif key == u'id':                    # unnecessary
         continue
       elif key == u'activity' and value:
         dic[key] = dict(self.ACTIVITY_CHOICES)[value]
@@ -91,12 +94,45 @@ class Software(models.Model):
     composed_of_queryset = self.composed_of.values()
     assert type(composed_of_queryset) == django.db.models.query.ValuesQuerySet  # not serializable
     for dict_entry in composed_of_queryset:
-      composed_of_list.append( dict_entry )
+      sub_dict = { u'name': dict_entry[u'name'] }
+      sub_dict[u'url_software_page'] = u'%s://%s%s#%s' % ( url_scheme, url_server, reverse(u'apps_url',), dict_entry[u'slug'] )
+      composed_of_list.append( sub_dict )   # for reference: quick way to get all standard attributes: composed_of_list.append( dict_entry )
     dic[u'composed_of'] = composed_of_list
-    ## 'highlight' attribute              # non-standard 'property' attribute
+    ## 'highlight' attribute                # non-standard 'property' attribute
     dic[u'highlight'] = self.highlight
+    ## non-attribute info
+    dic[u'url_software_page'] = u'%s://%s%s#%s' % ( url_scheme, url_server, reverse(u'apps_url',), self.slug )
     ## return
     return dic
+
+  # def make_serializable_dict( self, url_scheme, url_server ):
+  #   """Converts attribute and other info into dict and returns it; dict will either be passed to template or exposed as json."""
+  #   import django  # for asserts
+  #   dic = {}
+  #   ## most attributes
+  #   for key,value in self.__dict__.items():
+  #     if key == u'_state':                # not a real attribute, and not serializable
+  #       continue
+  #     elif key == u'activity' and value:
+  #       dic[key] = dict(self.ACTIVITY_CHOICES)[value]
+  #     elif key == u'audience' and value:
+  #       dic[key] = dict(self.AUDIENCE_CHOICES)[value]
+  #     else:
+  #       dic[key] = value
+  #   ## 'composed of' attribute (not in __dict__)
+  #   composed_of_list = []
+  #   composed_of_queryset = self.composed_of.values()
+  #   assert type(composed_of_queryset) == django.db.models.query.ValuesQuerySet  # not serializable
+  #   for dict_entry in composed_of_queryset:
+  #     dict_entry[u'url_software_page'] = u'%s://%s%s#%s' % ( url_scheme, url_server, reverse(u'apps_url',), dict_entry[u'slug'] )
+  #     composed_of_list.append( dict_entry )
+  #   dic[u'composed_of'] = composed_of_list
+  #   ## 'highlight' attribute              # non-standard 'property' attribute
+  #   dic[u'highlight'] = self.highlight
+  #   ## non-attribute info
+  #   dic[u'url_software_page'] = u'%s://%s%s#%s' % ( url_scheme, url_server, reverse(u'apps_url',), self.slug )
+  #   ## return
+  #   return dic
 
   # end class Software()
 
