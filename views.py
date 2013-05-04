@@ -35,6 +35,8 @@ def apps2( request ):
   format = request.GET.get( u'format', None )
   callback = request.GET.get( u'callback', None )
   if format == u'json':
+    d = { u'datetime': u'%s' % datetime.datetime.now(), u'message': u'format=json called', u'remote_ip': u'%s' % request.META[u'REMOTE_ADDR'] }
+    log.info( json.dumps(d, sort_keys=True) )
     output = json.dumps( data_dict, sort_keys=True, indent=2 )
     if callback:
       output = u'%s(%s)' % ( callback, output )
@@ -42,16 +44,6 @@ def apps2( request ):
   else:
     data_dict[u'LOGIN_URL'] = settings_app.LOGIN_URL
     return render( request, u'software_app_templates/base2.html', data_dict )
-
-
-# def apps( request ):
-#   page_dict = {
-#     u'api_list': models.Software.objects.filter( api=True ),
-#     u'production_list': models.Software.objects.filter( in_production=True ),
-#     u'current_development_list': models.Software.objects.filter( current_development=True ),
-#     u'LOGIN_URL': settings_app.LOGIN_URL,
-#     }
-#   return render_to_response( u'software_app_templates/base.html', page_dict )
 
 
 def login( request ):
